@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./app
+    ports:
+      - "80:80"
+    environment:
+      - APP_MESSAGE=Welcome to Version 1.0!
+      - APP_VERSION=1.0
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
