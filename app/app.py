@@ -97,16 +97,7 @@ HTML_TEMPLATE = """
         <div>Version: {{ version }}</div>
         <div>Last Updated: {{ last_updated }}</div>
         
-        <div class="update-form">
-            <h3>Live Update Demo</h3>
-            <form method="POST" action="/update">
-                <input type="text" name="new_message" placeholder="Enter new message" value="{{ message }}">
-                <button type="submit">Update Message</button>
-            </form>
-            <form method="POST" action="/toggle_easter_egg" style="margin-top: 10px;">
-                <button type="submit">Toggle Easter Egg</button>
-            </form>
-        </div>
+
         
         <div class="easter-egg">
             🎉 You found the easter egg! DevOps rocks! 🚀
@@ -115,6 +106,17 @@ HTML_TEMPLATE = """
 </body>
 </html>
 """
+
+        # <div class="update-form">
+        #     <h3>Live Update Demo</h3>
+        #     <form method="POST" action="/update">
+        #         <input type="text" name="new_message" placeholder="Enter new message" value="{{ message }}">
+        #         <button type="submit">Update Message</button>
+        #     </form>
+        #     <form method="POST" action="/toggle_easter_egg" style="margin-top: 10px;">
+        #         <button type="submit">Toggle Easter Egg</button>
+        #     </form>
+        # </div>
 
 # Initialize counter
 if not hasattr(app, 'view_counter'):
@@ -142,16 +144,16 @@ def index():
                                  count=app.view_counter,
                                  hostname=hostname)
 
-@app.route('/update', methods=['POST'])
-def update_message():
-    """Update the message via API"""
-    new_message = request.form.get('new_message', '')
-    if new_message:
-        with config_lock:
-            app_config['message'] = new_message
-            app_config['last_updated'] = time.time()
+# @app.route('/update', methods=['POST'])
+# def update_message():
+#     """Update the message via API"""
+#     new_message = request.form.get('new_message', '')
+#     if new_message:
+#         with config_lock:
+#             app_config['message'] = new_message
+#             app_config['last_updated'] = time.time()
     
-    return index()
+#     return index()
 
 @app.route('/toggle_easter_egg', methods=['POST'])
 def toggle_easter_egg():
@@ -161,33 +163,6 @@ def toggle_easter_egg():
         app_config['last_updated'] = time.time()
     
     return index()
-
-@app.route('/api/health')
-def health_check():
-    """Health check endpoint for deployment verification"""
-    return jsonify({
-        'status': 'healthy',
-        'message': app_config['message'],
-        'version': app_config['version'],
-        'timestamp': app_config['last_updated']
-    })
-
-@app.route('/api/update', methods=['POST'])
-def api_update():
-    """API endpoint for updating message (used by update.sh)"""
-    data = request.get_json()
-    if data and 'message' in data:
-        with config_lock:
-            app_config['message'] = data['message']
-            app_config['last_updated'] = time.time()
-        
-        return jsonify({
-            'status': 'success',
-            'message': 'Message updated successfully',
-            'new_message': app_config['message']
-        })
-    
-    return jsonify({'status': 'error', 'message': 'No message provided'}), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=False)
