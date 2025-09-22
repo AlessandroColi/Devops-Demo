@@ -111,10 +111,6 @@ HTML_TEMPLATE = """
         <div class="easter-egg">
             🎉 You found the easter egg! DevOps rocks! 🚀
         </div>
-        
-        <p>This environment was created with Docker</p>
-        <div class="hostname">Served from: {{ hostname }}</div>
-        <div class="status">✅ Application is running successfully!</div>
     </div>
 </body>
 </html>
