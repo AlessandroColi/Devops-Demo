@@ -25,20 +25,50 @@ resource "aws_instance" "demo_instance" {
   ami                    = data.aws_ami.amazon_linux_2.id
   instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.demo_sg.id]
-  key_name               = "staging-demo-key" # Pre-created key pair
+  key_name               = "staging-demo-key"
 
   user_data = <<-EOF
               #!/bin/bash
+              # Update system
               yum update -y
-              amazon-linux-extras install docker -y
-              service docker start
-              usermod -a -G docker ec2-user
-              curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              chmod +x /usr/local/bin/docker-compose
+              
+              # Install Docker
+              amazon-linux-extras enable docker
+              yum install docker -y
+              
+              # Start and enable Docker
+              systemctl enable docker
+              systemctl start docker
+              
+              # Add ec2-user to docker group
+              usermod -aG docker ec2-user
+              
+              # Restart docker to apply group changes
+              systemctl restart docker
+              
+              # Wait for Docker to be ready
+              sleep 30
+              
+              # Test Docker
+              docker --version || echo "Docker installation check failed"
               EOF
 
   tags = {
     Name = "staging-demo-instance"
+  }
+
+  # Wait for the instance to be ready
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Instance is ready'"
+    ]
+    
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("~/.ssh/staging-demo-key.pem")
+      host        = self.public_ip
+    }
   }
 }
 
