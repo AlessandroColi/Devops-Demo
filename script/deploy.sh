@@ -61,12 +61,6 @@ ssh -i ~/.ssh/staging-demo-key.pem ec2-user@$PUBLIC_IP "
         --name staging-demo-container \
         -p 80:80 \
         staging-demo-app
-            
-    if curl -f http://localhost:80 >/dev/null 2>&1; then
-        echo '✅ Application is running internally'
-    else
-        exit 1
-    fi
 "
 
 

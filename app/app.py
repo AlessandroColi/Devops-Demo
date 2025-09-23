@@ -4,6 +4,7 @@ import socket
 import time
 from threading import Lock
 from datetime import datetime
+import random
 
 app = Flask(__name__)
 
@@ -91,11 +92,6 @@ HTML_TEMPLATE = """
             83% { color: #8000ff; }
             100% { color: #ff0000; }
         }
-        .click-hint {
-            font-size: 0.8em;
-            color: rgba(255,255,255,0.5);
-            margin-top: 5px;
-        }
         .hidden-text {
             color: rgba(255,255,255,0.3);
             font-size: 0.7em;
@@ -129,12 +125,18 @@ HTML_TEMPLATE = """
         .update-form button:hover {
             background: #764ba2;
         }
+        .devops-message {
+            font-size: 1.1em;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Rocket clickable area for easter egg -->
-        <div class="secret-area" onclick="incrementClick()" title="Click me 5 times!">
+        <div class="secret-area" onclick="incrementClick()">
             <svg class="rocket-image" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13.5 10.5L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 <path d="M13 7L17 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -152,28 +154,41 @@ HTML_TEMPLATE = """
         <div>Version: {{ version }}</div>
         <div>Last Updated: {{ last_updated }}</div>
         
-        <div class="hidden-text" id="hiddenText" style="display: none;">
-            Click faster! {{ clicks_to_go }} more clicks to unlock the secret!
-        </div>
-        
         <div class="easter-egg" id="easterEgg">
-            🎉 CONGRATULATIONS! You found the secret easter egg! 🎉<br>
+            <div class="devops-message" id="devopsMessage">WOW an easterEgg</div>
         </div>
         
         
-
+        
     </div>
 
     <script>
         let clickCount = 0;
         const CLICKS_NEEDED = 5;
-        const TIME_LIMIT = 3000; // 3 seconds
+        const TIME_LIMIT = 3000;
+        
+        const devopsMessages = [
+            "Infrastructure as Code? More like Infrastructure as Joke! 😄",
+            "No servers were harmed in the making of this easter egg! 🖥️",
+            "Your YAML file finally parsed correctly! 🎯",
+            "DevOps magic is real! (Unlike most test coverage) ✨",
+            "Your Terraform plan: +1 easter egg, -1 boredom 🏗️",
+            "Git push --force approved for this feature! 💪",
+            "Monitoring shows you're having too much fun! 📈",
+            "Your PR was approved by the easter bunny! 🐇"
+        ];
+        
+        function showEasterEgg() {
+            const randomMessage = devopsMessages[Math.floor(Math.random() * devopsMessages.length)];
+            document.getElementById('devopsMessage').textContent = randomMessage;
+            document.getElementById('easterEgg').style.display = 'block';
+            clickCount = 0;
+        }
         
         function incrementClick() {
             clickCount++;
             const now = Date.now();
             
-            // Send click to server
             fetch('/secret_click', {
                 method: 'POST',
                 headers: {
@@ -184,15 +199,13 @@ HTML_TEMPLATE = """
             
             // Check if easter egg should be triggered
             if (clickCount >= CLICKS_NEEDED) {
-                // Check if clicks were fast enough (within 3 seconds)
                 fetch('/trigger_easter_egg')
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            document.getElementById('easterEgg').style.display = 'block';
+                            showEasterEgg();
                             document.getElementById('hiddenText').style.display = 'none';
                         } else {
-                            // Reset if too slow
                             clickCount = 0;
                             document.getElementById('hiddenText').innerHTML = 'Too slow! Try clicking faster!';
                             setTimeout(() => {
@@ -202,7 +215,6 @@ HTML_TEMPLATE = """
                     });
             }
             
-            // Reset counter after 3 seconds
             setTimeout(() => {
                 if (clickCount < CLICKS_NEEDED) {
                     clickCount = 0;

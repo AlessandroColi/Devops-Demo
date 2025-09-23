@@ -15,6 +15,6 @@ ssh -i ~/.ssh/staging-demo-key.pem ec2-user@$PUBLIC_IP "
     
       docker run -d \
         --name staging-demo-container \
-        -p 80:80 \scp 
+        -p 80:80 \
         staging-demo-app
 "
