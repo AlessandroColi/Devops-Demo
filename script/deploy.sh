@@ -45,7 +45,14 @@ scp -i ~/.ssh/staging-demo-key.pem \
     "$PROJECT_ROOT/app/app.py" \
     "$PROJECT_ROOT/app/requirements.txt" \
     ec2-user@$PUBLIC_IP:/home/ec2-user/
-echo "✅ Application files copied"
+
+ssh -i ~/.ssh/staging-demo-key.pem ec2-user@$PUBLIC_IP "mkdir -p /home/ec2-user/static"
+scp -i ~/.ssh/staging-demo-key.pem \
+    "$PROJECT_ROOT/app/imgs/space-r.svg" \
+    "$PROJECT_ROOT/app/imgs/space-l.svg" \
+    ec2-user@$PUBLIC_IP:/home/ec2-user/static/
+
+echo "✅ Application files and image copied"
 
 ssh -i ~/.ssh/staging-demo-key.pem ec2-user@$PUBLIC_IP "    
      docker --version

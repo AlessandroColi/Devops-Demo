@@ -68,7 +68,17 @@ HTML_TEMPLATE = """
             z-index: 100;
             transition: transform 0.3s ease;
         }
-        .secret-area:hover {
+        .fake-area {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .secret-area.fake-area:hover {
             transform: scale(1.1);
         }
         .rocket-image {
@@ -136,16 +146,12 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <div class="container">
+        <div class="fake-area">
+            <img src="/static/space-l.svg" class="rocket-image" alt="Rocket">
+        </div>
+        
         <div class="secret-area" onclick="incrementClick()">
-            <svg class="rocket-image" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13.5 10.5L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M13 7L17 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M9.5 4.5C9.5 5.88071 10.6193 7 12 7C13.3807 7 14.5 5.88071 14.5 4.5C14.5 3.11929 13.3807 2 12 2C10.6193 2 9.5 3.11929 9.5 4.5Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M16 12C16 11.4477 16.4477 11 17 11C17.5523 11 18 11.4477 18 12V16C18 18.2091 16.2091 20 14 20H10C7.79086 20 6 18.2091 6 16V12C6 11.4477 6.44772 11 7 11C7.55228 11 8 11.4477 8 12V16C8 17.1046 8.89543 18 10 18H14C15.1046 18 16 17.1046 16 16V12Z" fill="currentColor"/>
-                <path d="M4.5 13.5L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M19.5 13.5L21 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M12 11V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+            <img src="/static/space-r.svg" class="rocket-image" alt="Rocket">
         </div>
         
         <h1>On-Demand Staging Environment</h1>
