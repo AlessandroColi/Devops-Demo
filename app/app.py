@@ -9,8 +9,8 @@ import random
 app = Flask(__name__)
 
 app_config = {
-    'message': 'Welcome to Version 3.0!',
-    'version': '3.0',
+    'message': 'Welcome to Version 1.0!',
+    'version': '1.0',
     'last_updated': time.time(),
     'easter_egg': False,
     'click_count': 0,

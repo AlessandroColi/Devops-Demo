@@ -1,0 +1,54 @@
+focus more on staging (possibly have 2 env one with staging and one with prod)
+change title and take home message
+week 7 lab oct 9 1pm
+
+
+Timing
+The time was good at 7:02
+
+
+Relevant, clearly motivated:
+The motivation was good and nicely utilized audience interaction
+
+
+Narrative: contains a good narrative
+
+The narrative was hard to follow during the demo. We perceived it as a string of "and then" steps without much of a story. 
+
+ 
+
+Difficulty: demonstration is difficult to do
+
+It was not trivial, but we would like to see a bit more difficulty if possible.
+
+ 
+
+Speech: accompanied by clear, structured speech
+One speaker mostly read rather than presented. The other was a bit hard to follow at times during the demo with lots of uhms and pauses while running the demo.
+
+ 
+
+Originality: few demos/tutorials exist on the topic
+
+You clearly put the demo together, but there are tutorials om spinning up and spinning things down with Terraform. You did do some manual docker in the middle which is original but was unfortunately a bit confusing for the listener.
+
+
+Aesthetics: visually appealing
+The slides were good. During the demo the text was a bit small.
+
+I put a 0 mainly to encourage you to consider the text size during your next demo.
+
+ 
+
+Engagement: audience engaged (e.g., easter egg)
+
+You engaged with the audience in a fun way and also had an easter egg
+
+
+Liveness: code/config updated live
+
+You made some code changes but these were the application instead of the IaC. You did run some commands manually but by writing them manually you may have wasted some time.
+
+
+Take-home: includes clear and visible take-home message
+We would like to see a more deep and relevant take-home message specific to the demo.
