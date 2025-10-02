@@ -1,4 +1,4 @@
-FROM python:3.14.0rc3-slim-trixie
+FROM python:3.9-slim
 
 WORKDIR /app
 
@@ -6,7 +6,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY app.py .
-COPY static/ /app/static/
+COPY static/ ./static/
 
 EXPOSE 80
 
