@@ -45,13 +45,7 @@ resource "aws_instance" "demo_instance" {
               
               # Restart docker to apply group changes
               systemctl restart docker
-              
-              # Wait for Docker to be ready
-              sleep 30
-              
-              # Test Docker
-              docker --version || echo "Docker installation check failed"
-              EOF
+                            EOF
 
   tags = {
     Name = "staging-demo-instance"
