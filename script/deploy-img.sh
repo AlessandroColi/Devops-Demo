@@ -18,7 +18,6 @@ fi
 
 scp -i ~/.ssh/staging-demo-key.pem ../demo-app.tar ec2-user@$PRODUCTION_IP:/home/ec2-user/
 
-echo "🐳 LOADING AND RUNNING..."
 ssh -i ~/.ssh/staging-demo-key.pem ec2-user@$PRODUCTION_IP "
     docker load -i demo-app.tar
     docker stop production-container 2>/dev/null || true
