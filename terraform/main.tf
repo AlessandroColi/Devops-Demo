@@ -29,21 +29,17 @@ resource "aws_instance" "demo_instance" {
 
   user_data = <<-EOF
               #!/bin/bash
-              # Update system
+
               yum update -y
               
-              # Install Docker
               amazon-linux-extras enable docker
               yum install docker -y
               
-              # Start and enable Docker
               systemctl enable docker
               systemctl start docker
               
-              # Add ec2-user to docker group
               usermod -aG docker ec2-user
               
-              # Restart docker to apply group changes
               systemctl restart docker
             
               EOF
