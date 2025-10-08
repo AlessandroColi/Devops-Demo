@@ -45,7 +45,8 @@ resource "aws_instance" "demo_instance" {
               
               # Restart docker to apply group changes
               systemctl restart docker
-                            EOF
+            
+              EOF
 
   tags = {
     Name = "staging-demo-instance"
